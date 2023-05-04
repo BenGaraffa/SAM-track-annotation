@@ -19,7 +19,7 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
     with open(output_path + '.txt', 'w') as file:
-        file.write('0 ' + ' '.join([str(i) for i in convert_to_yolo(mask)]))
+        file.write('0 ' + ' '.join([str(i) for i in box_annotation]))
     
     save_image = Image.fromarray(frame)
     save_image.save(output_path + '.png')
