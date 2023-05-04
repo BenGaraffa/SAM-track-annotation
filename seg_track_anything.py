@@ -18,8 +18,10 @@ def save_prediction(pred_mask,output_dir,file_name):
 def save_annotation(frame,pred_mask,output_dir,file_name_base):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
+
     with open(output_path + '.txt', 'w') as file:
-        file.write('0 ' + ' '.join([str(i) for i in box_annotation]))
+        annotation = '0 ' + ' '.join([str(i) for i in box_annotation])
+        file.write(annotation)
     
     save_image = Image.fromarray(frame)
     save_image.save(output_path + '.png')
@@ -38,7 +40,6 @@ def get_edges(arr):
 def convert_to_yolo(arr):
     left, right = get_edges(np.sum(arr, axis=0))
     up, down = get_edges(np.sum(arr, axis=1))
-    print(up, down, left, right)
     w, h = right - left, down - up
     return float(left + (w/2)), float(up + h/2), float(w), float(h)
 
