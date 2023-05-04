@@ -16,11 +16,11 @@ def save_prediction(pred_mask,output_dir,file_name):
     save_mask.save(os.path.join(output_dir,file_name))
 
 def save_annotation(frame,pred_mask,output_dir,file_name_base):
-    box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
+    box_annotation = np.save(file_name_base, pred_mask.astype(np.uint8))
     print(box_annotation)
 
 def convert_to_yolo(mask_arr):
-    print(mask_arr)
+    pass
 
 def colorize_mask(pred_mask):
     save_mask = Image.fromarray(pred_mask.astype(np.uint8))
