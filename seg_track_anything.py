@@ -20,7 +20,7 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
     print(box_annotation)
 
 def convert_to_yolo(mask_arr):
-    print(mask_arr)
+    pass
 
 def colorize_mask(pred_mask):
     save_mask = Image.fromarray(pred_mask.astype(np.uint8))
@@ -150,7 +150,8 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name):
             torch.cuda.empty_cache()
             gc.collect()
             
-            save_prediction(pred_mask, output_mask_dir, str(frame_idx).zfill(5) + '.png')
+            # save_prediction(pred_mask, output_mask_dir, str(frame_idx).zfill(5) + '.png')
+            save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
             pred_list.append(pred_mask)
 
             print("processed frame {}, obj_num {}".format(frame_idx, SegTracker.get_obj_num()),end='\r')
@@ -247,7 +248,8 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps)
                 track_mask = SegTracker.track(frame)
                 # find new objects, and update tracker with new objects
                 new_obj_mask = SegTracker.find_new_objs(track_mask,seg_mask)
-                save_prediction(new_obj_mask, output_mask_dir, f'{frame_name}_new.png')
+                # save_prediction(new_obj_mask, output_mask_dir, f'{frame_name}_new.png')
+                save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
                 pred_mask = track_mask + new_obj_mask
                 # segtracker.restart_tracker()
                 SegTracker.add_reference(frame, pred_mask)
@@ -256,7 +258,8 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps)
             torch.cuda.empty_cache()
             gc.collect()
             
-            save_prediction(pred_mask, output_mask_dir, f'{frame_name}.png')
+            # save_prediction(pred_mask, output_mask_dir, f'{frame_name}.png')
+            save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
             pred_list.append(pred_mask)
 
             print("processed frame {}, obj_num {}".format(frame_idx, SegTracker.get_obj_num()),end='\r')
