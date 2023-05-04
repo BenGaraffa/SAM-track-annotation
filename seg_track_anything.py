@@ -15,6 +15,13 @@ def save_prediction(pred_mask,output_dir,file_name):
     save_mask.putpalette(_palette)
     save_mask.save(os.path.join(output_dir,file_name))
 
+def save_annotation(frame,pred_mask,output_dir,file_name_base):
+    box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
+    print(box_annotation)
+
+def convert_to_yolo(mask_arr):
+    print(mask_arr)
+
 def colorize_mask(pred_mask):
     save_mask = Image.fromarray(pred_mask.astype(np.uint8))
     save_mask = save_mask.convert(mode='P')
@@ -133,7 +140,8 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name):
                 track_mask = SegTracker.track(frame)
                 # find new objects, and update tracker with new objects
                 new_obj_mask = SegTracker.find_new_objs(track_mask,seg_mask)
-                save_prediction(new_obj_mask, output_mask_dir, str(frame_idx).zfill(5) + '_new.png')
+                # save_prediction(new_obj_mask, output_mask_dir, str(frame_idx).zfill(5) + '_new.png')
+                save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
                 pred_mask = track_mask + new_obj_mask
                 # segtracker.restart_tracker()
                 SegTracker.add_reference(frame, pred_mask)
