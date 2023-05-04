@@ -36,8 +36,8 @@ def get_edges(arr):
     return start, end
 
 def convert_to_yolo(arr):
-    left, right = get_edges(np.sum(mask, axis=0))
-    up, down = get_edges(np.sum(mask, axis=1))
+    left, right = get_edges(np.sum(arr, axis=0))
+    up, down = get_edges(np.sum(arr, axis=1))
     print(up, down, left, right)
     w, h = right - left, down - up
     return float(left + (w/2)), float(up + h/2), float(w), float(h)
