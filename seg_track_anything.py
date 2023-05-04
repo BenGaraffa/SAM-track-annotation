@@ -20,7 +20,7 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
     print(box_annotation)
 
 def convert_to_yolo(mask_arr):
-    pass
+    print(mask_arr)
 
 def colorize_mask(pred_mask):
     save_mask = Image.fromarray(pred_mask.astype(np.uint8))
@@ -151,7 +151,7 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name):
             gc.collect()
             
             # save_prediction(pred_mask, output_mask_dir, str(frame_idx).zfill(5) + '.png')
-            save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
+            save_annotation(frame, pred_mask, output_mask_dir, str(frame_idx).zfill(5))
             pred_list.append(pred_mask)
 
             print("processed frame {}, obj_num {}".format(frame_idx, SegTracker.get_obj_num()),end='\r')
@@ -259,7 +259,7 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps)
             gc.collect()
             
             # save_prediction(pred_mask, output_mask_dir, f'{frame_name}.png')
-            save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
+            save_annotation(frame, pred_mask, output_mask_dir, str(frame_idx).zfill(5))
             pred_list.append(pred_mask)
 
             print("processed frame {}, obj_num {}".format(frame_idx, SegTracker.get_obj_num()),end='\r')
