@@ -43,9 +43,6 @@ def convert_to_yolo(arr):
     w, h = right - left, down - up
     return float(left + (w/2)), float(up + h/2), float(w), float(h)
 
-def convert_to_yolo(mask_arr):
-    pass
-
 def colorize_mask(pred_mask):
     save_mask = Image.fromarray(pred_mask.astype(np.uint8))
     save_mask = save_mask.convert(mode='P')
