@@ -9,3 +9,6 @@ debug
 cym_utils
 /src
 /tracking_results
+00000.npy
+00000.png
+convert_mask.py
