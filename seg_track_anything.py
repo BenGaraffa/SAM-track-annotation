@@ -18,10 +18,15 @@ def save_prediction(pred_mask,output_dir,file_name):
 def save_annotation(frame,pred_mask,output_dir,file_name_base):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
-    label_path = output_dir + '/labels/' + file_name_base + '.txt'
+    label_path = output_dir + '/labels/' 
     data_path = output_dir + '/data/' + file_name_base + '.png'
 
-    with open(label_path, 'w') as file:
+    if not os.path.exists(label_path):
+        os.mkdir(label_path)
+    if not os.path.exists(data_path):
+        os.mkdir(data_path)
+
+    with open(label_path + file_name_base + '.txt', 'w') as file:
         annotation = '0 ' + ' '.join([str(i) for i in box_annotation])
         file.write(annotation)
     
