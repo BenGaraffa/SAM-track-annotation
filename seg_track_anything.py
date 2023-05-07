@@ -15,11 +15,9 @@ def save_prediction(pred_mask,output_dir,file_name):
     save_mask.putpalette(_palette)
     save_mask.save(os.path.join(output_dir,file_name))
 
-def save_annotation(frame,pred_mask,output_dir,file_name_base,video_name="video1"):
+def save_annotation(frame,pred_mask,output_dir,file_name_base):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
-    create_dir(output_dir + '/labels/')
-    create_dir(output_dir + '/data/')
     label_path = output_dir + '/labels/' + file_name_base + '.txt'
     data_path = output_dir + '/data/' + file_name_base + '.png'
 
@@ -27,7 +25,6 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base,video_name="video1
         annotation = '0 ' + ' '.join([str(i) for i in box_annotation])
         file.write(annotation)
     
-    image_path = video_name + '/data/'  + file_name_base + '.png'
     save_image = Image.fromarray(frame)
     save_image.save(data_path)
 
@@ -117,8 +114,8 @@ def tracking_objects_in_video(SegTracker, input_video, input_img_seq, fps):
     
     io_args = {
         'tracking_result_dir': tracking_result_dir,
-        'output_mask_dir': os.path.dirname(__file__), #f'{tracking_result_dir}/{video_name}_masks',
-        'output_masked_frame_dir': f'{os.path.dirname(__file__)}/{video_name}_annotations',
+        'output_mask_dir': f'{tracking_result_dir}/{video_name}_masks',
+        'output_masked_frame_dir': f'{tracking_result_dir}/{video_name}_masked_frames',
         'output_video': f'{tracking_result_dir}/{video_name}_seg.mp4', # keep same format as input video
         'output_gif': f'{tracking_result_dir}/{video_name}_seg.gif',
     }
@@ -232,7 +229,7 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name):
     print("{} saved".format(io_args['output_gif']))
 
     # zip predicted mask
-    os.system(f"zip -r {io_args['tracking_result_dir']}/{video_name}_pred_mask.zip .{video_name}")
+    os.system(f"zip -r {io_args['tracking_result_dir']}/{video_name}_pred_mask.zip {io_args['output_mask_dir']}")
 
     # manually release memory (after cuda out of memory)
     del SegTracker
