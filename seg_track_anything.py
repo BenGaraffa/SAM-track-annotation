@@ -19,7 +19,7 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
     label_path = output_dir + '/labels/' 
-    data_path = output_dir + '/data/' + file_name_base + '.png'
+    data_path = output_dir + '/data/' 
 
     if not os.path.exists(label_path):
         os.mkdir(label_path)
@@ -31,7 +31,7 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
         file.write(annotation)
     
     save_image = Image.fromarray(frame)
-    save_image.save(data_path)
+    save_image.save(data_path + file_name_base + '.png')
 
 def get_edges(arr):
     start, end = None, None
