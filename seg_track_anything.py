@@ -115,8 +115,8 @@ def tracking_objects_in_video(SegTracker, input_video, input_img_seq, fps):
     
     io_args = {
         'tracking_result_dir': tracking_result_dir,
-        'output_mask_dir': '', #f'{tracking_result_dir}/{video_name}_masks',
-        'output_masked_frame_dir': f'{video_name}_annotations',
+        'output_mask_dir': os.path.dirname(__file__), #f'{tracking_result_dir}/{video_name}_masks',
+        'output_masked_frame_dir': f'{os.path.dirname(__file__)}/{video_name}_annotations',
         'output_video': f'{tracking_result_dir}/{video_name}_seg.mp4', # keep same format as input video
         'output_gif': f'{tracking_result_dir}/{video_name}_seg.gif',
     }
