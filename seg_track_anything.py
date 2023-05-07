@@ -18,6 +18,8 @@ def save_prediction(pred_mask,output_dir,file_name):
 def save_annotation(frame,pred_mask,output_dir,file_name_base,video_name="video1"):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
+    create_dir(output_dir + '/labels/')
+    create_dir(output_dir + '/data/')
     label_path = output_dir + '/labels/' + file_name_base + '.txt'
     data_path = output_dir + '/data/' + file_name_base + '.png'
 
