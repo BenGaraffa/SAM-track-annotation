@@ -18,13 +18,15 @@ def save_prediction(pred_mask,output_dir,file_name):
 def save_annotation(frame,pred_mask,output_dir,file_name_base):
     box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
+    label_path = output_dir + '/labels/' + file_name_base + '.txt'
+    data_path = output_dir + '/data/' + file_name_base + '.png'
 
-    with open(output_path + '.txt', 'w') as file:
+    with open(label_path, 'w') as file:
         annotation = '0 ' + ' '.join([str(i) for i in box_annotation])
         file.write(annotation)
     
     save_image = Image.fromarray(frame)
-    save_image.save(output_path + '.png')
+    save_image.save(data_path)
 
 def get_edges(arr):
     start, end = None, None
@@ -112,8 +114,8 @@ def tracking_objects_in_video(SegTracker, input_video, input_img_seq, fps):
     
     io_args = {
         'tracking_result_dir': tracking_result_dir,
-        'output_mask_dir': f'{tracking_result_dir}/{video_name}_masks',
-        'output_masked_frame_dir': f'{tracking_result_dir}/{video_name}_masked_frames',
+        'output_mask_dir': '.', #f'{tracking_result_dir}/{video_name}_masks',
+        'output_masked_frame_dir': f'{video_name}_annotations',
         'output_video': f'{tracking_result_dir}/{video_name}_seg.mp4', # keep same format as input video
         'output_gif': f'{tracking_result_dir}/{video_name}_seg.gif',
     }
