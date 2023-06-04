@@ -23,15 +23,15 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
 
     if not os.path.exists(label_path):
         os.mkdir(label_path)
-    if not os.path.exists(data_path):
-        os.mkdir(data_path)
+    # if not os.path.exists(data_path):
+    #     os.mkdir(data_path)
 
     with open(label_path + file_name_base + '.txt', 'w') as file:
         annotation = '0 ' + ' '.join([str(i) for i in box_annotation])
         file.write(annotation)
     
-    save_image = Image.fromarray(frame)
-    save_image.save(data_path + file_name_base + '.png')
+    # save_image = Image.fromarray(frame)
+    # save_image.save(data_path + file_name_base + '.png')
 
 def get_edges(arr):
     start, end = None, None
@@ -169,7 +169,7 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name):
                 # find new objects, and update tracker with new objects
                 new_obj_mask = SegTracker.find_new_objs(track_mask,seg_mask)
                 # save_prediction(new_obj_mask, output_mask_dir, str(frame_idx).zfill(5) + '_new.png')
-                save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5))
+                save_annotation(frame, new_obj_mask, output_mask_dir, video_name + '_' + str(frame_idx).zfill(5))
                 pred_mask = track_mask + new_obj_mask
                 # segtracker.restart_tracker()
                 SegTracker.add_reference(frame, pred_mask)
@@ -179,7 +179,7 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name):
             gc.collect()
             
             # save_prediction(pred_mask, output_mask_dir, str(frame_idx).zfill(5) + '.png')
-            save_annotation(frame, pred_mask, output_mask_dir, str(frame_idx).zfill(5))
+            save_annotation(frame, pred_mask, output_mask_dir, video_name + '_' + str(frame_idx).zfill(5))
             pred_list.append(pred_mask)
 
             print("processed frame {}, obj_num {}".format(frame_idx, SegTracker.get_obj_num()),end='\r')
@@ -277,7 +277,7 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps)
                 # find new objects, and update tracker with new objects
                 new_obj_mask = SegTracker.find_new_objs(track_mask,seg_mask)
                 # save_prediction(new_obj_mask, output_mask_dir, f'{frame_name}_new.png')
-                save_annotation(frame, new_obj_mask, output_mask_dir, str(frame_idx).zfill(5), video_name)
+                save_annotation(frame, new_obj_mask, output_mask_dir, video_name + '_' + str(frame_idx).zfill(5), video_name)
                 pred_mask = track_mask + new_obj_mask
                 # segtracker.restart_tracker()
                 SegTracker.add_reference(frame, pred_mask)
@@ -287,7 +287,7 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps)
             gc.collect()
             
             # save_prediction(pred_mask, output_mask_dir, f'{frame_name}.png')
-            save_annotation(frame, pred_mask, output_mask_dir, str(frame_idx).zfill(5), video_name)
+            save_annotation(frame, pred_mask, output_mask_dir, video_name + '_' + str(frame_idx).zfill(5), video_name)
             pred_list.append(pred_mask)
 
             print("processed frame {}, obj_num {}".format(frame_idx, SegTracker.get_obj_num()),end='\r')

@@ -12,3 +12,4 @@ cym_utils
 00000.npy
 00000.png
 convert_mask.py
+show_annotations.py
