@@ -16,7 +16,7 @@ def save_prediction(pred_mask,output_dir,file_name):
     save_mask.save(os.path.join(output_dir,file_name))
 
 def save_annotation(frame,pred_mask,output_dir,file_name_base):
-    box_annotation = convert_to_yolo(pred_mask.astype(np.uint8))
+    box_annotation = split_and_convert(pred_mask.astype(np.uint8))
     output_path = os.path.join(output_dir, file_name_base)
     label_path = output_dir + '/labels/' 
     data_path = output_dir + '/data/' 
@@ -49,6 +49,17 @@ def convert_to_yolo(arr):
     up, down = get_edges(np.sum(arr, axis=1))
     w, h = right - left, down - up
     return float(left + (w/2)), float(up + h/2), float(w), float(h)
+
+def split_and_convert(arr):
+    annotations = ""
+    for object_id in np.unique(arr)[1:]:
+        object_arr = arr.copy()
+        object_mask = np.isin(object_arr, [object_id])
+        other_object_mask = np.invert(object_mask)
+        object_arr[other_object_mask] = 0
+        object_arr[object_mask] = 1
+        annotations += "0 " + ' '.join([str(i) for i in convert_to_yolo(object_arr)]) + '\n'
+    return annotations
 
 def colorize_mask(pred_mask):
     save_mask = Image.fromarray(pred_mask.astype(np.uint8))
