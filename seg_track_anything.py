@@ -27,8 +27,7 @@ def save_annotation(frame,pred_mask,output_dir,file_name_base):
     #     os.mkdir(data_path)
 
     with open(label_path + file_name_base + '.txt', 'w') as file:
-        annotation = '0 ' + ' '.join([str(i) for i in box_annotation])
-        file.write(annotation)
+        file.write(box_annotation)
     
     # save_image = Image.fromarray(frame)
     # save_image.save(data_path + file_name_base + '.png')
